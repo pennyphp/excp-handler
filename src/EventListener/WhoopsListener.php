@@ -13,23 +13,27 @@ class WhoopsListener
         "html" => Handler\PrettyPageHandler::class
     ];
 
-    private $handler;
+    private $current;
 
-    public function __construct($handler = "html")
+    public function __construct($current = "html", $handlers = [])
     {
-        $this->handler = $handler;
+        $this->current = $current;
+        $this->handlers = $handlers;
+        if (count($this->handlers) == 0) {
+            $this->handlers['html'] = new Handler\PrettyPageHandler();
+        }
     }
 
-    public function addHandler($name, $className)
+    public function addHandler($name, $handler)
     {
-        $this->handlers[$name] = $className;
+        $this->handlers[$name] = $handler;
     }
 
     public function onError(PennyEventInterface $event)
     {
-        if (!in_array($this->handler, $this->handlers)) {
+        if (!in_array($this->current, $this->handlers)) {
             throw new RuntimeException(
-                "{$this->handler} is not supported. Add it use addHandler({$this->handler}, <className>) func."
+                "{$this->current} is not supported. Add it use addHandler({$this->current}, <className>) func."
             );
         }
 
@@ -39,7 +43,7 @@ class WhoopsListener
 
         $whoops = new Run();
 
-        $whoops->pushHandler(new $this->handlers[$this->handler]());
+        $whoops->pushHandler($this->handlers[$this->current]);
 
         $whoops->pushHandler(function ($exception, $inspector, $run) use ($event) {
             $run->sendHttpCode($exception->getCode());

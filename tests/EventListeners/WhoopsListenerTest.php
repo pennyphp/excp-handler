@@ -3,6 +3,7 @@ namespace PennyTest\ExcpHandler;
 
 use RuntimeException;
 use Whoops\Handler\JsonResponseHandler;
+use Exception;
 use Penny\ExcpHandler\EventListener\WhoopsListener;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_Assert;
@@ -13,13 +14,13 @@ class WhoopsListenerTest extends PHPUnit_Framework_TestCase
     public function testCostructorSupportsHandler()
     {
         $handler = new WhoopsListener("html");
-        $this->assertSame("html", PHPUnit_Framework_Assert::readAttribute($handler, 'handler'));
+        $this->assertSame("html", PHPUnit_Framework_Assert::readAttribute($handler, 'current'));
     }
 
     public function testDefaultHandler()
     {
         $handler = new WhoopsListener();
-        $this->assertSame("html", PHPUnit_Framework_Assert::readAttribute($handler, 'handler'));
+        $this->assertSame("html", PHPUnit_Framework_Assert::readAttribute($handler, 'current'));
     }
 
     /**
