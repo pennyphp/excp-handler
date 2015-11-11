@@ -28,7 +28,9 @@ class WhoopsListener
     public function onError(PennyEventInterface $event)
     {
         if (!in_array($this->handler, $this->handlers)) {
-            throw new RuntimeException("{$this->handler} is not supported at it!");
+            throw new RuntimeException(
+                "{$this->handler} is not supported. Add it use addHandler({$this->handler}, <className>) func."
+            );
         }
 
         if (!$event->getException() instanceof Exception) {
