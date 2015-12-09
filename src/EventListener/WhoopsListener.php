@@ -5,7 +5,7 @@ use Exception;
 use RuntimeException;
 use Whoops\Handler;
 use Whoops\Run;
-use Penny\Event\PennyEventInterface;
+use Penny\Event\EventInterface;
 
 class WhoopsListener
 {
@@ -19,8 +19,8 @@ class WhoopsListener
     {
         $this->current = $current;
         $this->handlers = $handlers;
-        if (count($this->handlers) == 0) {
-            $this->handlers['html'] = new Handler\PrettyPageHandler();
+        if (count($this->handlers) === 0) {
+            $this->addHandler('html', new Handler\PrettyPageHandler());
         }
     }
 
@@ -29,9 +29,9 @@ class WhoopsListener
         $this->handlers[$name] = $handler;
     }
 
-    public function onError(PennyEventInterface $event)
+    public function onError(EventInterface $event)
     {
-        if (!in_array($this->current, $this->handlers)) {
+        if (!isset($this->handlers[$this->current])) {
             throw new RuntimeException(
                 "{$this->current} is not supported. Add it use addHandler({$this->current}, <className>) func."
             );
