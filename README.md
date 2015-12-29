@@ -1,4 +1,5 @@
 # Exception Handler
+[![Build Status](https://travis-ci.org/pennyphp/excp-handler.svg)](https://travis-ci.org/pennyphp/excp-handler)  
 This project helps you to manage your exceptions with [whoops](https://github.com/filp/whoops).
 
 ## Whoops

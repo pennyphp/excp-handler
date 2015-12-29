@@ -1,0 +1,25 @@
+language: php
+
+sudo: false
+
+php:
+  - 5.6
+  - 7.0
+  - hhvm
+
+before_script:
+  - composer self-update
+
+install:
+  - composer install --prefer-source
+
+script:
+  - vendor/bin/phpcs --standard=psr2 src/
+  - vendor/bin/phpunit
+
+notifications:
+  irc: "irc.freenode.org#pennyphp"
+  email: false
+
+matrix:
+  fast_finish: true
