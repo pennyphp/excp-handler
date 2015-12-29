@@ -10,6 +10,7 @@
     ],
     "require": {
         "gianarb/penny": "dev-master",
+        "squizlabs/php_codesniffer": "~2.5",
         "filp/whoops": "^1.2@dev"
     },
     "require-dev": {
